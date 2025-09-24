@@ -1,4 +1,9 @@
 import 'package:ciit_2/extras/AppColors.dart';
+import 'package:ciit_2/frames/pantalla_carrera.dart';
+import 'package:ciit_2/frames/pantalla_cesa.dart';
+import 'package:ciit_2/frames/pantalla_usuarios.dart';
+import 'package:ciit_2/frames/quejas_sugerencias.dart';
+import 'package:ciit_2/frames/sistema_citas.dart';
 import 'package:ciit_2/widgets/eventos.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +32,18 @@ class PanelPrincipal extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.person, color: Colors.white),
             onPressed: () {
-              // Acción del botón de usuario
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) => PantallaUsuario(
+                        nombre: nombre,
+                        correo: "example@gmail.com",
+                        carrera: "Sistemas",
+                        fechaRegistro: "Hoy",
+                      ),
+                ),
+              );
             },
           ),
         ],
@@ -49,9 +65,13 @@ class PanelPrincipal extends StatelessWidget {
                         leading: const Icon(Icons.search),
                         hintText: "Buscar . . .",
                         elevation: MaterialStateProperty.all(2),
-                        backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                        backgroundColor: MaterialStateProperty.all(
+                          Colors.grey[200],
+                        ),
                         shape: MaterialStateProperty.all(
-                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
                         ),
                         hintStyle: MaterialStateProperty.all(
                           const TextStyle(color: Colors.grey, fontSize: 16),
@@ -77,7 +97,10 @@ class PanelPrincipal extends StatelessWidget {
                     // Itinerario Semanal
                     const Text(
                       "Itinerario Semanal",
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Container(
@@ -96,7 +119,10 @@ class PanelPrincipal extends StatelessWidget {
                           _diaItinerario("Jueves"),
                           _diaItinerario("Viernes"),
                           _diaItinerario("Sábado", color: Colors.grey.shade600),
-                          _diaItinerario("Domingo", color: Colors.grey.shade600),
+                          _diaItinerario(
+                            "Domingo",
+                            color: Colors.grey.shade600,
+                          ),
                         ],
                       ),
                     ),
@@ -120,20 +146,47 @@ class PanelPrincipal extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        _iconItem(Icons.book, "Tareas Pendientes"),
-                                        _iconItem(Icons.calendar_month, "Mi Horario"),
+                                        _iconItem(
+                                          Icons.book,
+                                          "Tareas Pendientes",
+                                        ),
+                                        _iconItem(
+                                          Icons.calendar_month,
+                                          "Mi Horario",
+                                        ),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        _iconItem(Icons.grade, "Mis Calificaciones"),
-                                        _iconItem(Icons.search, "Solicitudes"),
+                                        _iconItem(
+                                          Icons.grade,
+                                          "Mis Calificaciones",
+                                        ),
+                                        GestureDetector(
+                                          child: _iconItem(
+                                            Icons.search,
+                                            "Solicitudes",
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const SistemaCitas(),
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -147,7 +200,14 @@ class PanelPrincipal extends StatelessWidget {
                                   color: AppColors.principal,
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                child: Text("Dudas? Preguntale a PolaIA!!", style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,),
+                                child: Text(
+                                  "Dudas? Preguntale a PolaIA!!",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
                               ),
                             ],
                           ),
@@ -167,22 +227,78 @@ class PanelPrincipal extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        _iconItem(Icons.space_dashboard, "Mi Espacio"),
-                                        _iconItem(Icons.money, "CESA"),
-                                        _iconItem(Icons.switch_account_outlined, "Servicios Escolares"),
+                                        _iconItem(
+                                          Icons.space_dashboard,
+                                          "Mi Espacio",
+                                        ),
+                                        GestureDetector(
+                                          child: _iconItem(Icons.money, "CESA"),
+                                          onTap: () {
+                                            Navigator.push(context, MaterialPageRoute(builder: 
+                                            (context)=> const PantallaCESA()));
+                                          },
+                                        ),
+                                        _iconItem(
+                                          Icons.switch_account_outlined,
+                                          "Servicios Escolares",
+                                        ),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
-                                        _iconItem(Icons.school, "Mi Carrera"),
-                                        _iconItem(Icons.people, "Perfil Público"),
-                                        _iconItem(Icons.warning, "Quejas y\nSugerencias"),
+                                        GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (
+                                                      context,
+                                                    ) => const PantallaCarrera(
+                                                      nombreCarrera: 'Sistemas',
+                                                      descripcion: 'La mejor',
+                                                      cursos: ["CISCO", "POO"],
+                                                      convocatorias: [
+                                                        "HACKAThON",
+                                                      ],
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          child: _iconItem(
+                                            Icons.school,
+                                            "Mi Carrera",
+                                          ),
+                                        ),
+                                        _iconItem(
+                                          Icons.people,
+                                          "Perfil Público",
+                                        ),
+                                        GestureDetector(
+                                          child: _iconItem(
+                                            Icons.warning,
+                                            "Quejas y\nSugerencias",
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const QuejasSugerencias(),
+                                              ),
+                                            );
+                                          },
+                                        ),
                                       ],
                                     ),
                                   ],
@@ -254,23 +370,30 @@ class PanelPrincipal extends StatelessWidget {
   void _confirmarCerrarSesion(BuildContext context) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Cerrar sesión"),
-        content: const Text("¿Estás seguro de que quieres cerrar sesión?"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Cancelar", style: TextStyle(color: Colors.black)),
+      builder:
+          (context) => AlertDialog(
+            title: const Text("Cerrar sesión"),
+            content: const Text("¿Estás seguro de que quieres cerrar sesión?"),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  "Cancelar",
+                  style: TextStyle(color: Colors.black),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "Sí, salir",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            child: const Text("Sí, salir", style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
     );
   }
 
@@ -291,7 +414,11 @@ class PanelPrincipal extends StatelessWidget {
         const SizedBox(height: 5),
         SizedBox(
           width: 80,
-          child: Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 12),
+          ),
         ),
       ],
     );
@@ -305,7 +432,10 @@ class PanelPrincipal extends StatelessWidget {
         Container(
           width: 60,
           height: 60,
-          decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(20)),
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(20),
+          ),
         ),
       ],
     );
