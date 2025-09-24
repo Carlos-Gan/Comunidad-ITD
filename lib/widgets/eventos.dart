@@ -35,9 +35,8 @@ class EventosWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 alignment: Alignment.center,
-                child: logo ?? const Text(
-                  "Logo",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                child: logo ?? const Icon(
+                  Icons.event,
                 ),
               ),
 

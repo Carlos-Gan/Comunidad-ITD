@@ -15,7 +15,6 @@ class PanelPrincipal extends StatelessWidget {
           "Bienvenido, $nombre",
           style: const TextStyle(color: Colors.white),
         ),
-
         backgroundColor: AppColors.principal,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -26,279 +25,223 @@ class PanelPrincipal extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(
-              Icons.person,
-              color: Colors.white,
-            ), // ícono de ejemplo
+            icon: const Icon(Icons.person, color: Colors.white),
             onPressed: () {
-              // TODO: Acción al presionar el botón
+              // Acción del botón de usuario
             },
           ),
         ],
       ),
       body: Row(
         children: [
-          // Panel izquierdo
+          // Panel izquierdo scrollable
           Expanded(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start, // <-- alineado a la izquierda
-                children: [
-                  // SearchBar
-                  SizedBox(
-                    width: double.infinity,
-                    child: SearchBar(
-                      leading: const Icon(Icons.search),
-                      hintText: "Buscar . . .",
-                      elevation: MaterialStateProperty.all(2),
-                      backgroundColor: MaterialStateProperty.all(
-                        Colors.grey[200],
-                      ),
-                      shape: MaterialStateProperty.all(
-                        RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(25),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // SearchBar
+                    SizedBox(
+                      width: double.infinity,
+                      child: SearchBar(
+                        leading: const Icon(Icons.search),
+                        hintText: "Buscar . . .",
+                        elevation: MaterialStateProperty.all(2),
+                        backgroundColor: MaterialStateProperty.all(Colors.grey[200]),
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
                         ),
-                      ),
-                      hintStyle: MaterialStateProperty.all(
-                        const TextStyle(color: Colors.grey, fontSize: 16),
-                      ),
-                      textStyle: MaterialStateProperty.all(
-                        const TextStyle(color: Colors.black, fontSize: 16),
-                      ),
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(horizontal: 16),
-                      ),
-                      trailing: [
-                        IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.mic, color: Colors.black54),
+                        hintStyle: MaterialStateProperty.all(
+                          const TextStyle(color: Colors.grey, fontSize: 16),
                         ),
-                      ],
-                      onChanged: (value) {
-                        print("Buscando: $value");
-                      },
-                      onSubmitted: (value) {
-                        print("Texto final: $value");
-                      },
+                        textStyle: MaterialStateProperty.all(
+                          const TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        padding: MaterialStateProperty.all(
+                          const EdgeInsets.symmetric(horizontal: 16),
+                        ),
+                        trailing: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.mic, color: Colors.black54),
+                          ),
+                        ],
+                        onChanged: (value) => print("Buscando: $value"),
+                        onSubmitted: (value) => print("Texto final: $value"),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 10),
 
-                  const SizedBox(height: 25),
-
-                  // Título del itinerario alineado a la izquierda
-                  const Text(
-                    "Itinerario Semanal",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Itinerario visual
-                  Container(
-                    height: 100,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: AppColors.secundario,
-                      borderRadius: BorderRadius.circular(20),
+                    // Itinerario Semanal
+                    const Text(
+                      "Itinerario Semanal",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    const SizedBox(height: 10),
+                    Container(
+                      height: 100,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: AppColors.secundario,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          _diaItinerario("Lunes"),
+                          _diaItinerario("Martes"),
+                          _diaItinerario("Miércoles"),
+                          _diaItinerario("Jueves"),
+                          _diaItinerario("Viernes"),
+                          _diaItinerario("Sábado", color: Colors.grey.shade600),
+                          _diaItinerario("Domingo", color: Colors.grey.shade600),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Acceso Rápido y Mis Espacios
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        //
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Lunes"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                        // Acceso Rápido
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const Text("Acceso Rápido"),
+                              const SizedBox(height: 10),
+                              Container(
+                                height: 250,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppColors.secundario,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _iconItem(Icons.book, "Tareas Pendientes"),
+                                        _iconItem(Icons.calendar_month, "Mi Horario"),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _iconItem(Icons.grade, "Mis Calificaciones"),
+                                        _iconItem(Icons.search, "Solicitudes"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 20),
+                              Container(
+                                height: 30,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppColors.principal,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Text("Dudas? Preguntale a PolaIA!!", style: TextStyle(color: Colors.white, fontSize: 20),textAlign: TextAlign.center,),
+                              ),
+                            ],
+                          ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Martes"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
+                        const SizedBox(width: 20),
+                        // Mis Espacios
+                        Expanded(
+                          child: Column(
+                            children: [
+                              const Text("Mis espacios"),
+                              const SizedBox(height: 10),
+                              Container(
+                                height: 300,
+                                width: double.infinity,
+                                decoration: BoxDecoration(
+                                  color: AppColors.secundario,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _iconItem(Icons.space_dashboard, "Mi Espacio"),
+                                        _iconItem(Icons.money, "CESA"),
+                                        _iconItem(Icons.switch_account_outlined, "Servicios Escolares"),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        _iconItem(Icons.school, "Mi Carrera"),
+                                        _iconItem(Icons.people, "Perfil Público"),
+                                        _iconItem(Icons.warning, "Quejas y\nSugerencias"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Miercoles"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Jueves"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Viernes"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Sabado"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade600,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("Domingo"),
-                            Container(
-                              width: 60,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade600,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(height: 5),
-                  //Columnas de Acceso Rapido y Mis Espacios
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Acceso Rapido"),
-                          Container(
-                            height: 250,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            decoration: BoxDecoration(
-                              color: AppColors.secundario,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          SizedBox(height: 20),
-                          Container(
-                            height: 30,
-                            width: MediaQuery.of(context).size.width * 0.3,
-                            decoration: BoxDecoration(
-                              color: AppColors.principal,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text("Mis espacios"),
-                          Container(
-                            height: 300,
-                            width: MediaQuery.of(context).size.width * 0.4,
-                            decoration: BoxDecoration(
-                              color: AppColors.secundario,
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
 
-          // Panel de eventos y alertas
+          // Panel derecho de eventos
           Container(
             width: 300,
             color: AppColors.terciario,
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 10),
-                  Text(
+                  const SizedBox(height: 10),
+                  const Text(
                     "Eventos",
                     style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
-                  SizedBox(height: 16),
-                  EventosWidget(
-                    nombreEvento: "Maratón CDMX",
-                    nombreCarrera: "10K Categoría Libre",
+                  const SizedBox(height: 16),
+                  const EventosWidget(
+                    nombreEvento: "Hackaton 2025",
+                    nombreCarrera: "Ing. Sistemas Computacionales",
                     fecha: "23/09/2025",
                   ),
-                  SizedBox(height: 16),
-                  EventosWidget(
-                    nombreEvento: "Carrera Universitaria",
-                    nombreCarrera: "5K Categoría Estudiantes",
-                    fecha: "30/09/2025",
+                  const SizedBox(height: 16),
+                  const EventosWidget(
+                    nombreEvento: "Simposium 2025",
+                    nombreCarrera: "Ing. Sistemas Computacionales",
+                    fecha: "20/09/2025 - 26/09/2025",
                   ),
-                  SizedBox(height: 16),
-                  EventosWidget(
-                    nombreEvento: "Carrera Recreativa",
-                    nombreCarrera: "3K Familiar",
+                  const SizedBox(height: 16),
+                  const EventosWidget(
+                    nombreEvento: "Elecciones CESA",
+                    nombreCarrera: "ITD",
                     fecha: "05/10/2025",
                   ),
-                  SizedBox(height: 16),
-                  EventosWidget(
-                    nombreEvento: "Competencia Profesional",
-                    nombreCarrera: "21K Elite",
+                  const SizedBox(height: 16),
+                  const EventosWidget(
+                    nombreEvento: "Evaluación Docente",
+                    nombreCarrera: "ITD",
                     fecha: "12/10/2025",
                   ),
-                  SizedBox(height: 16),
-                  EventosWidget(
-                    nombreEvento: "Competencia Pro",
-                    nombreCarrera: "21 Elite",
-                    fecha: "12/10",
+                  const SizedBox(height: 16),
+                  const EventosWidget(
+                    nombreEvento: "Inicio de 2das Oportunidades",
+                    nombreCarrera: "Ing. Sistemas Computacionales",
+                    fecha: "12/11/2025",
                   ),
+                  const SizedBox(height: 16),
                 ],
               ),
             ),
@@ -311,30 +254,60 @@ class PanelPrincipal extends StatelessWidget {
   void _confirmarCerrarSesion(BuildContext context) {
     showDialog(
       context: context,
-      builder:
-          (context) => AlertDialog(
-            title: const Text("Cerrar sesión"),
-            content: const Text("¿Estás seguro de que quieres cerrar sesión?"),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: const Text(
-                  "Cancelar",
-                  style: TextStyle(color: Colors.black),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pop(context);
-                },
-                child: const Text(
-                  "Sí, salir",
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-            ],
+      builder: (context) => AlertDialog(
+        title: const Text("Cerrar sesión"),
+        content: const Text("¿Estás seguro de que quieres cerrar sesión?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancelar", style: TextStyle(color: Colors.black)),
           ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.pop(context);
+            },
+            child: const Text("Sí, salir", style: TextStyle(color: Colors.red)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Helper widgets
+  Widget _iconItem(IconData icon, String label) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 80,
+          width: 80,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Icon(icon, color: Colors.white, size: 40),
+        ),
+        const SizedBox(height: 5),
+        SizedBox(
+          width: 80,
+          child: Text(label, textAlign: TextAlign.center, style: const TextStyle(fontSize: 12)),
+        ),
+      ],
+    );
+  }
+
+  Widget _diaItinerario(String dia, {Color color = Colors.black}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(dia),
+        Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(20)),
+        ),
+      ],
     );
   }
 }
