@@ -1,3 +1,4 @@
+import 'package:ciit_2/frames/panel_principal.dart';
 import 'package:flutter/material.dart';
 import 'package:ciit_2/frames/login.dart';
 
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
       title: 'Comunidad ITD',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(),
-      home: const PanelInicio(),
+      //home: const PanelInicio(),
+      home: PanelPrincipal(),
     );
   }
 }
