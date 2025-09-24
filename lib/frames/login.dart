@@ -137,7 +137,7 @@ class _PanelInicioState extends State<PanelInicio>
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-
+            
                 // Header con logo y título
                 SlideTransition(
                   position: _slideAnimation,
@@ -174,7 +174,7 @@ class _PanelInicioState extends State<PanelInicio>
                           ),
                         ),
                         const SizedBox(height: 24),
-
+                
                         // Título
                         Text(
                           "Comunidad ITD",
@@ -199,9 +199,9 @@ class _PanelInicioState extends State<PanelInicio>
                     ),
                   ),
                 ),
-
+            
                 const SizedBox(height: 40),
-
+            
                 // Selector de formulario con pestañas modernas
                 SlideTransition(
                   position: _slideAnimation,
@@ -252,7 +252,7 @@ class _PanelInicioState extends State<PanelInicio>
                               ],
                             ),
                           ),
-
+            
                           // Contenido del formulario
                           AnimatedSwitcher(
                             duration: const Duration(milliseconds: 400),
@@ -275,9 +275,9 @@ class _PanelInicioState extends State<PanelInicio>
                     ),
                   ),
                 ),
-
+            
                 const SizedBox(height: 40),
-
+            
                 // Información adicional o footer
                 SlideTransition(
                   position: _slideAnimation,
@@ -338,7 +338,7 @@ class _PanelInicioState extends State<PanelInicio>
                     ),
                   ),
                 ),
-
+            
                 const SizedBox(height: 30),
               ],
             ),
@@ -392,27 +392,30 @@ class _PanelInicioState extends State<PanelInicio>
   Widget _buildWelcomeMessage() {
     return const Padding(
       padding: EdgeInsets.all(32),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(Icons.people_alt_rounded, color: Colors.grey, size: 64),
-          SizedBox(height: 16),
-          Text(
-            "Bienvenido a la Comunidad ITD",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.people_alt_rounded, color: Colors.grey, size: 64),
+            SizedBox(height: 16),
+            Text(
+              "Bienvenido a la Comunidad ITD",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87,
+              ),
+              textAlign: TextAlign.center,
             ),
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: 8),
-          Text(
-            "Selecciona una opción para continuar",
-            style: TextStyle(fontSize: 14, color: Colors.grey),
-            textAlign: TextAlign.center,
-          ),
-        ],
+            SizedBox(height: 8),
+            Text(
+              "Selecciona una opción para continuar",
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
