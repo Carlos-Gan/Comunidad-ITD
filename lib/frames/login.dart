@@ -10,11 +10,16 @@ class PanelInicio extends StatefulWidget {
 }
 
 class _PanelInicioState extends State<PanelInicio> {
-  String? selectedForm; // "login" o "register"
+  String? selectedForm;
+  bool _obscure = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Comunidad ITD", style: TextStyle(color: Colors.white)),
+        backgroundColor: AppColors.principal,
+      ),
       body: SafeArea(
         child: Center(
           child: Column(
@@ -135,20 +140,46 @@ class _PanelInicioState extends State<PanelInicio> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
-                                TextField(
-                                  obscureText: true,
+                                //Contraseña
+                                TextFormField(
+                                  obscureText: _obscure,
                                   decoration: InputDecoration(
-                                    labelText: "Contraseña",
+                                    labelText: 'Contraseña',
                                     prefixIcon: const Icon(Icons.lock),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscure =
+                                              !_obscure; // alterna visibilidad
+                                        });
+                                      },
+                                    ),
                                   ),
+                                  validator: (String? value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'La contraseña es obligatoria';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
                                   onPressed: () {
-                                    // TODO: implementar login
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => const PanelPrincipal(),
+                                      ),
+                                    );
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: AppColors.principal,
@@ -166,6 +197,7 @@ class _PanelInicioState extends State<PanelInicio> {
                               ],
                               if (selectedForm == "register") ...[
                                 SizedBox(height: 10),
+                                //Nombre
                                 TextField(
                                   decoration: InputDecoration(
                                     labelText: "Nombre",
@@ -176,6 +208,7 @@ class _PanelInicioState extends State<PanelInicio> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
+                                //Usuario
                                 TextField(
                                   decoration: InputDecoration(
                                     labelText: "Usuario",
@@ -186,6 +219,7 @@ class _PanelInicioState extends State<PanelInicio> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
+                                //Numero de Control
                                 TextField(
                                   decoration: InputDecoration(
                                     labelText: "Número de control",
@@ -196,6 +230,7 @@ class _PanelInicioState extends State<PanelInicio> {
                                   ),
                                 ),
                                 const SizedBox(height: 12),
+                                //Correo
                                 TextField(
                                   decoration: InputDecoration(
                                     labelText: "Correo",
@@ -204,6 +239,37 @@ class _PanelInicioState extends State<PanelInicio> {
                                       borderRadius: BorderRadius.circular(15),
                                     ),
                                   ),
+                                ),
+                                const SizedBox(height: 12),
+                                //Contraseña
+                                TextFormField(
+                                  obscureText: _obscure,
+                                  decoration: InputDecoration(
+                                    labelText: 'Contraseña',
+                                    prefixIcon: const Icon(Icons.lock),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        _obscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off,
+                                      ),
+                                      onPressed: () {
+                                        setState(() {
+                                          _obscure =
+                                              !_obscure; // alterna visibilidad
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                  validator: (String? value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return 'La contraseña es obligatoria';
+                                    }
+                                    return null;
+                                  },
                                 ),
                                 const SizedBox(height: 16),
                                 ElevatedButton(
