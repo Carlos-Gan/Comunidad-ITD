@@ -1,3 +1,4 @@
+import 'package:ciit_2/frames/profesor/panel_principal_prof.dart';
 import 'package:flutter/material.dart';
 import '../extras/AppColors.dart';
 import 'panel_principal.dart';
@@ -9,12 +10,13 @@ class PanelInicio extends StatefulWidget {
   State<PanelInicio> createState() => _PanelInicioState();
 }
 
-class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStateMixin {
+class _PanelInicioState extends State<PanelInicio>
+    with SingleTickerProviderStateMixin {
   String? selectedForm;
-  bool _obscure = true;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  final TextEditingController _userController = TextEditingController();
 
   @override
   void initState() {
@@ -23,22 +25,25 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    
+
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
-    
+
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeOut));
-    
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+    );
+
     _animationController.forward();
   }
 
   @override
   void dispose() {
     _animationController.dispose();
+    _userController.dispose();
     super.dispose();
   }
 
@@ -47,6 +52,74 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
       selectedForm = formType;
     });
     _animationController.forward(from: 0.0);
+  }
+
+  void _handleLogin() {
+    final username = _userController.text.trim().toLowerCase();
+
+    if (username.isEmpty) {
+      _showErrorDialog('Por favor ingresa un usuario');
+      return;
+    }
+
+    // Redirigir según el tipo de usuario
+    if (username == 'est' || username.startsWith('est')) {
+      // Usuario estudiante
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder:
+              (context, animation, secondaryAnimation) =>
+                  const PanelPrincipal(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    } else if (username == 'prof' || username.startsWith('prof')) {
+      // Usuario profesor
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder:
+              (context, animation, secondaryAnimation) =>
+                  const PanelMaestros(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    } else {
+      // Usuario no reconocido - por defecto estudiante
+      Navigator.pushReplacement(
+        context,
+        PageRouteBuilder(
+          pageBuilder:
+              (context, animation, secondaryAnimation) =>
+                  const PanelPrincipal(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
+      );
+    }
+  }
+
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text('Error'),
+            content: Text(message),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text('OK'),
+              ),
+            ],
+          ),
+    );
   }
 
   @override
@@ -101,7 +174,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                           ),
                         ),
                         const SizedBox(height: 24),
-                        
+
                         // Título
                         Text(
                           "Comunidad ITD",
@@ -114,7 +187,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          "Conecta con tu comunidad estudiantil",
+                          "Ingresa tu tipo de usuario para continuar",
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.grey[600],
@@ -136,9 +209,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                     opacity: _fadeAnimation,
                     child: Container(
                       width: double.infinity,
-                      constraints: const BoxConstraints(
-                        maxWidth: 500,
-                      ),
+                      constraints: const BoxConstraints(maxWidth: 500),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
@@ -173,9 +244,9 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                                 ),
                                 Expanded(
                                   child: _buildTabButton(
-                                    "Registrarse",
-                                    "register",
-                                    Icons.app_registration_rounded,
+                                    "Modo Demo",
+                                    "demo",
+                                    Icons.play_arrow_rounded,
                                   ),
                                 ),
                               ],
@@ -194,9 +265,10 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                                 ),
                               );
                             },
-                            child: selectedForm == null
-                                ? _buildWelcomeMessage()
-                                : _buildFormContent(),
+                            child:
+                                selectedForm == null
+                                    ? _buildWelcomeMessage()
+                                    : _buildFormContent(),
                           ),
                         ],
                       ),
@@ -213,9 +285,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                     opacity: _fadeAnimation,
                     child: Container(
                       width: double.infinity,
-                      constraints: const BoxConstraints(
-                        maxWidth: 500,
-                      ),
+                      constraints: const BoxConstraints(maxWidth: 500),
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
                         color: Colors.white,
@@ -233,14 +303,29 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _buildInfoItem(Icons.security_rounded, "Seguro", Colors.green),
-                              _buildInfoItem(Icons.people_rounded, "Comunidad", Colors.blue),
-                              _buildInfoItem(Icons.school_rounded, "Educación", Colors.orange),
+                              _buildInfoItem(
+                                Icons.school_rounded,
+                                "Estudiante",
+                                Colors.blue,
+                                "Usa: est",
+                              ),
+                              _buildInfoItem(
+                                Icons.person_rounded,
+                                "Profesor",
+                                Colors.green,
+                                "Usa: prof",
+                              ),
+                              _buildInfoItem(
+                                Icons.help_rounded,
+                                "Demo",
+                                Colors.orange,
+                                "Cualquier texto",
+                              ),
                             ],
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            "Plataforma oficial del Instituto Tecnológico de Durango",
+                            "Solo ingresa tu tipo de usuario (sin contraseña)",
                             style: TextStyle(
                               fontSize: 12,
                               color: Colors.grey[600],
@@ -310,11 +395,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(
-            Icons.people_alt_rounded,
-            color: Colors.grey,
-            size: 64,
-          ),
+          Icon(Icons.people_alt_rounded, color: Colors.grey, size: 64),
           SizedBox(height: 16),
           Text(
             "Bienvenido a la Comunidad ITD",
@@ -328,10 +409,7 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
           SizedBox(height: 8),
           Text(
             "Selecciona una opción para continuar",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.grey,
-            ),
+            style: TextStyle(fontSize: 14, color: Colors.grey),
             textAlign: TextAlign.center,
           ),
         ],
@@ -341,39 +419,19 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
 
   Widget _buildFormContent() {
     final isLogin = selectedForm == "login";
-    
+
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Campos del formulario
-          _buildTextField(
-            label: isLogin ? "Usuario" : "Nombre completo",
-            icon: isLogin ? Icons.person_rounded : Icons.badge_rounded,
+          // Campo de usuario simplificado
+          _buildUserField(
+            label: isLogin ? "Tipo de usuario" : "Usuario demo",
+            icon: Icons.person_rounded,
+            hintText: isLogin ? "Ej: est, prof, admin" : "Cualquier texto",
           ),
-          
-          const SizedBox(height: 16),
-          
-          if (!isLogin) ...[
-            _buildTextField(
-              label: "Usuario",
-              icon: Icons.person_outline_rounded,
-            ),
-            const SizedBox(height: 16),
-            _buildTextField(
-              label: "Número de control",
-              icon: Icons.numbers_rounded,
-            ),
-            const SizedBox(height: 16),
-            _buildTextField(
-              label: "Correo electrónico",
-              icon: Icons.email_rounded,
-            ),
-            const SizedBox(height: 16),
-          ],
-          
-          _buildPasswordField(),
+
           const SizedBox(height: 24),
 
           // Botón de acción
@@ -402,23 +460,10 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
               color: Colors.transparent,
               child: InkWell(
                 borderRadius: BorderRadius.circular(15),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageRouteBuilder(
-                      pageBuilder: (context, animation, secondaryAnimation) => const PanelPrincipal(),
-                      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-                        return FadeTransition(
-                          opacity: animation,
-                          child: child,
-                        );
-                      },
-                    ),
-                  );
-                },
+                onTap: _handleLogin,
                 child: Center(
                   child: Text(
-                    isLogin ? "Iniciar Sesión" : "Crear Cuenta",
+                    isLogin ? "Ingresar" : "Iniciar Demo",
                     style: const TextStyle(
                       color: Colors.white,
                       fontSize: 16,
@@ -429,65 +474,82 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
               ),
             ),
           ),
-          
+
           const SizedBox(height: 16),
-          
-          // Enlace adicional
-          if (isLogin) ...[
-            TextButton(
-              onPressed: () {
-                // Lógica para recuperar contraseña
-              },
-              child: Text(
-                "¿Olvidaste tu contraseña?",
-                style: TextStyle(
-                  color: AppColors.principal,
-                  fontWeight: FontWeight.w500,
+
+          // Información de uso
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.blue[50],
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(color: Colors.blue[100]!),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.info_rounded, color: Colors.blue[600], size: 18),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    isLogin
+                        ? "Usa 'est' para Estudiante o 'prof' para Profesor"
+                        : "Cualquier texto te llevará al panel de demo",
+                    style: TextStyle(
+                      color: Colors.blue[800],
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ] else ...[
-            Text(
-              "Al registrarte aceptas nuestros términos y condiciones",
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 12,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ],
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildInfoItem(IconData icon, String text, Color color) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.1),
-            shape: BoxShape.circle,
+  Widget _buildInfoItem(
+    IconData icon,
+    String text,
+    Color color,
+    String subtitle,
+  ) {
+    return Expanded(
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              color: color.withOpacity(0.1),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: color, size: 20),
           ),
-          child: Icon(icon, color: color, size: 20),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 10,
-            color: Colors.grey[700],
-            fontWeight: FontWeight.w500,
+          const SizedBox(height: 4),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey[700],
+              fontWeight: FontWeight.w500,
+            ),
+            textAlign: TextAlign.center,
           ),
-        ),
-      ],
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: 8, color: Colors.grey[500]),
+            textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildTextField({
+  Widget _buildUserField({
     required String label,
     required IconData icon,
+    required String hintText,
   }) {
     return Container(
       decoration: BoxDecoration(
@@ -496,52 +558,21 @@ class _PanelInicioState extends State<PanelInicio> with SingleTickerProviderStat
         border: Border.all(color: Colors.grey[200]!),
       ),
       child: TextField(
+        controller: _userController,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: Colors.grey[600]),
+          hintText: hintText,
+          hintStyle: TextStyle(color: Colors.grey[400]),
           prefixIcon: Icon(icon, color: Colors.grey[500]),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-        ),
-        style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w500),
-      ),
-    );
-  }
-
-  Widget _buildPasswordField() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.grey[50],
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey[200]!),
-      ),
-      child: TextFormField(
-        obscureText: _obscure,
-        decoration: InputDecoration(
-          labelText: 'Contraseña',
-          labelStyle: TextStyle(color: Colors.grey[600]),
-          prefixIcon: Icon(Icons.lock_rounded, color: Colors.grey[500]),
-          suffixIcon: IconButton(
-            icon: Icon(
-              _obscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-              color: Colors.grey[500],
-            ),
-            onPressed: () {
-              setState(() {
-                _obscure = !_obscure;
-              });
-            },
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
           ),
-          border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         ),
         style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.w500),
-        validator: (value) {
-          if (value == null || value.trim().isEmpty) {
-            return 'La contraseña es obligatoria';
-          }
-          return null;
-        },
+        onSubmitted: (value) => _handleLogin(),
       ),
     );
   }
