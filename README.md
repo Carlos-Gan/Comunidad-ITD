@@ -1,3 +1,5 @@
+#Proyecto HACKACISTI 2025
+#Mesa 3
 # Comunidad ITD - App Estudiantil
 
 Una aplicación móvil y web integral para la comunidad estudiantil del instituto, diseñada para centralizar todos los servicios académicos y administrativos en un solo lugar.
