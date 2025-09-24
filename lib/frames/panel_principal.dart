@@ -1,4 +1,5 @@
 import 'package:ciit_2/extras/AppColors.dart';
+import 'package:ciit_2/widgets/eventos.dart';
 import 'package:flutter/material.dart';
 
 class PanelPrincipal extends StatelessWidget {
@@ -6,7 +7,7 @@ class PanelPrincipal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String nombre = "Jose";
+    String nombre = "Jose Jose";
 
     return Scaffold(
       appBar: AppBar(
@@ -14,6 +15,7 @@ class PanelPrincipal extends StatelessWidget {
           "Bienvenido, $nombre",
           style: const TextStyle(color: Colors.white),
         ),
+
         backgroundColor: AppColors.principal,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -22,6 +24,17 @@ class PanelPrincipal extends StatelessWidget {
             _confirmarCerrarSesion(context);
           },
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.person,
+              color: Colors.white,
+            ), // ícono de ejemplo
+            onPressed: () {
+              // TODO: Acción al presionar el botón
+            },
+          ),
+        ],
       ),
       body: Row(
         children: [
@@ -244,8 +257,52 @@ class PanelPrincipal extends StatelessWidget {
             ),
           ),
 
-          // Panel derecho fijo
-          Container(width: 300, color: AppColors.terciario),
+          // Panel de eventos y alertas
+          Container(
+            width: 300,
+            color: AppColors.terciario,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: 10),
+                  Text(
+                    "Eventos",
+                    style: TextStyle(fontSize: 20, color: Colors.white),
+                  ),
+                  SizedBox(height: 16),
+                  EventosWidget(
+                    nombreEvento: "Maratón CDMX",
+                    nombreCarrera: "10K Categoría Libre",
+                    fecha: "23/09/2025",
+                  ),
+                  SizedBox(height: 16),
+                  EventosWidget(
+                    nombreEvento: "Carrera Universitaria",
+                    nombreCarrera: "5K Categoría Estudiantes",
+                    fecha: "30/09/2025",
+                  ),
+                  SizedBox(height: 16),
+                  EventosWidget(
+                    nombreEvento: "Carrera Recreativa",
+                    nombreCarrera: "3K Familiar",
+                    fecha: "05/10/2025",
+                  ),
+                  SizedBox(height: 16),
+                  EventosWidget(
+                    nombreEvento: "Competencia Profesional",
+                    nombreCarrera: "21K Elite",
+                    fecha: "12/10/2025",
+                  ),
+                  SizedBox(height: 16),
+                  EventosWidget(
+                    nombreEvento: "Competencia Pro",
+                    nombreCarrera: "21 Elite",
+                    fecha: "12/10",
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
