@@ -145,19 +145,4 @@ class PantallaCarrera extends StatelessWidget {
       ),
     );
   }
-
-  Widget _buildCodigoLine(String texto) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
-      child: Text(
-        texto,
-        style: TextStyle(
-          fontFamily: 'Monospace',
-          fontSize: 14,
-          color: Colors.grey[800],
-          backgroundColor: Colors.grey[200],
-        ),
-      ),
-    );
-  }
 }

@@ -89,7 +89,7 @@ class PantallaUsuario extends StatelessWidget {
                   crossAxisCount: 4,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
-                  childAspectRatio: 0.9, // REDUCIDO para cuadrados más pequeños
+                  childAspectRatio: 2, // REDUCIDO para cuadrados más pequeños
                   children: [
                     _buildGridItem("DATOS", Icons.person_outline, Colors.blue),
                     _buildGridItem("MIS MATERIAS", Icons.book_outlined, Colors.purple),
@@ -159,12 +159,12 @@ class PantallaUsuario extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon, color: color, size: 28), // Icono más pequeño
+              Icon(icon, color: color, size: 30), // Icono más pequeño
               const SizedBox(height: 6),
               Text(
                 title,
                 style: const TextStyle(
-                  fontSize: 11, // Texto más pequeño
+                  fontSize: 14, // Texto más pequeño
                   fontWeight: FontWeight.w600,
                   color: Colors.black87,
                 ),

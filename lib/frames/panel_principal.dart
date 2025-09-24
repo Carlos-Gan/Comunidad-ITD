@@ -1,6 +1,7 @@
 import 'package:ciit_2/extras/AppColors.dart';
 import 'package:ciit_2/frames/pantalla_carrera.dart';
 import 'package:ciit_2/frames/pantalla_cesa.dart';
+import 'package:ciit_2/frames/pantalla_servicios.dart';
 import 'package:ciit_2/frames/pantalla_usuarios.dart';
 import 'package:ciit_2/frames/quejas_sugerencias.dart';
 import 'package:ciit_2/frames/sistema_citas.dart';
@@ -241,13 +242,31 @@ class PanelPrincipal extends StatelessWidget {
                                         GestureDetector(
                                           child: _iconItem(Icons.money, "CESA"),
                                           onTap: () {
-                                            Navigator.push(context, MaterialPageRoute(builder: 
-                                            (context)=> const PantallaCESA()));
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const PantallaCESA(),
+                                              ),
+                                            );
                                           },
                                         ),
-                                        _iconItem(
-                                          Icons.switch_account_outlined,
-                                          "Servicios Escolares",
+                                        GestureDetector(
+                                          child: _iconItem(
+                                            Icons.switch_account_outlined,
+                                            "Servicios Escolares",
+                                          ),
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder:
+                                                    (context) =>
+                                                        const ServiciosEscolares(),
+                                              ),
+                                            );
+                                          },
                                         ),
                                       ],
                                     ),
